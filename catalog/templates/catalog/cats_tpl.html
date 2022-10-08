@@ -1,0 +1,11 @@
+<div class="mega-category-menu">
+    <span class="cat-button"><i class="lni lni-menu"></i>Всі категорії</span>
+    <ul class="sub-category">
+        {% for cat in categories %}
+            <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }}
+                <span class="badge bg-dark">{{ cat.cnt }}</span>
+            </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

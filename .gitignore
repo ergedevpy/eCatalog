@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+ecom_env/
 .idea/
 
 # Spyder project settings
@@ -128,3 +129,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/static/

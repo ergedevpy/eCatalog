@@ -1,3 +1,5 @@
+import random
+
 from unidecode import unidecode
 from django.db import models
 from django.template.defaultfilters import slugify
@@ -6,7 +8,7 @@ from django.urls import reverse
 
 class Merchant(models.Model):
     name = models.CharField(max_length=255, verbose_name='Продавець')
-    slug = models.SlugField(max_length=100, allow_unicode=True, unique=True)
+    slug = models.SlugField(max_length=255, allow_unicode=True, unique=True)
     logo_url = models.CharField(max_length=512, verbose_name='Лого', blank=True, null=True)
     site = models.URLField(verbose_name='Сайт', blank=True, null=True)
 
@@ -14,7 +16,7 @@ class Merchant(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(unidecode(self.name))
+        self.slug = slugify(unidecode(f'{self.name}_{random.randint(123, 123123)}'))
         super(Merchant, self).save(*args, **kwargs)
 
     class Meta:
@@ -25,7 +27,7 @@ class Merchant(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True, verbose_name='Категорія')
-    slug = models.SlugField(max_length=100, allow_unicode=True, unique=True)
+    slug = models.SlugField(max_length=255, allow_unicode=True, unique=True)
     parent_cat = models.ForeignKey('Category', verbose_name='Батьківська категорія', on_delete=models.CASCADE,
                                    blank=True, null=True)
 
@@ -36,7 +38,7 @@ class Category(models.Model):
         return reverse('catalog:get_categories', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(unidecode(self.name))
+        self.slug = slugify(unidecode(f'{self.name}_{random.randint(123, 123123)}'))
         super(Category, self).save(*args, **kwargs)
 
     class Meta:
@@ -46,8 +48,8 @@ class Category(models.Model):
 
 
 class Vendor(models.Model):
-    name = models.CharField(max_length=64, default='Невідомо', verbose_name='Виробник', db_index=True, unique=True)
-    slug = models.SlugField(max_length=100, allow_unicode=True, unique=True)
+    name = models.CharField(max_length=255, default='Невідомо', verbose_name='Виробник', db_index=True, unique=True)
+    slug = models.SlugField(max_length=255, allow_unicode=True, unique=True)
     logo_url = models.CharField(max_length=512, verbose_name='Лого', blank=True, null=True)
     site = models.URLField(verbose_name='Сайт', blank=True, null=True)
 
@@ -55,7 +57,7 @@ class Vendor(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(unidecode(self.name))
+        self.slug = slugify(unidecode(f'{self.name}_{random.randint(123, 123123)}'))
         super(Vendor, self).save(*args, **kwargs)
 
     class Meta:
@@ -65,10 +67,10 @@ class Vendor(models.Model):
 
 
 class Product(models.Model):
-    prod_id = models.CharField(max_length=12, verbose_name='Ідентифікатор продавця')
+    prod_id = models.CharField(max_length=48, verbose_name='Ідентифікатор продавця')
     code = models.CharField(max_length=50, verbose_name='Код продавця')
     name = models.CharField(max_length=512, db_index=True, verbose_name='Найменування')
-    slug = models.SlugField(max_length=100, allow_unicode=True, unique=True)
+    slug = models.SlugField(max_length=255, allow_unicode=True, unique=True)
     description = models.TextField(blank=True, null=True, verbose_name='Опис', db_index=True)
     picture = models.CharField(max_length=512, blank=True, null=True, verbose_name='Картинка')
     guarantee = models.CharField(max_length=255, blank=True, null=True, verbose_name='Гарантія')
@@ -78,7 +80,7 @@ class Product(models.Model):
     merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE, verbose_name='Продавець')
     vendor = models.ForeignKey(Vendor, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Виробник')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категорія')
-    redirect_url = models.URLField(verbose_name='Посилання на товар')
+    redirect_url = models.URLField(verbose_name='Посилання на товар', max_length=300)
 
     def __str__(self):
         return self.name
@@ -89,7 +91,7 @@ class Product(models.Model):
             return discount_percent
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(unidecode(self.name))
+        self.slug = slugify(unidecode(f'{self.name}_{random.randint(123, 123123)}'))
         super(Product, self).save(*args, **kwargs)
 
     class Meta:

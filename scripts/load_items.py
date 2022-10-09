@@ -48,7 +48,7 @@ def run():
                 description=row[5],
                 picture=row[11],
                 guarantee=row[6],
-                stock=row[13],
+                stock=row[14],
                 redirect_url=row[-2],
                 oldprice=get_old_price(row[10]),
                 price=get_old_price(row[12]),

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+{% block content %}
+    <section class="trending-product section" style="margin-top: 12px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="title">
+                        <h3>{{ title }}</h3>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                {% for item in object_list %}
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <!-- Start Single Product -->
+                        <div class="single-product">
+                            <div class="product-image">
+                                {% if item.picture %}
+                                    <img src="{{ item.picture }}" alt="#"
+                                         style="object-fit:contain;  height:220px;">
+                                {% else %}
+                                    <img src="{% static 'images/products/noimage_product.svg' %}"
+                                         alt="Image for {{ item.slug }}"
+                                         style="object-fit:contain;  height:220px;">
+                                {% endif %}
+                                {% if item.oldprice  and item.price and item.get_discount_percent >= 1 %}
+
+                                    <span class="sale-tag">-{{ item.get_discount_percent|floatformat:0 }}%</span>
+
+                                {% endif %}
+                                <div class="button">
+                                    <a href="{% url 'catalog:redirect_to_admitad' item.pk %}"
+                                       target="_blank"
+                                       rel="noopener" class="btn"><i
+                                            class="lni lni-arrow-top-right"></i>В
+                                        магазин</a>
+                                </div>
+
+                            </div>
+                            <div class="product-info">
+                                <span class="category">{{ item.category.name }}</span>
+
+                                <h4 class="title">
+                                    <a href="#">
+                                        {% if  item.name|length > 30 %}
+                                            {{ item.name|truncatechars:30 }}
+                                        {% else %}
+                                            {{ item.name }}
+                                        {% endif %}
+                                    </a>
+                                </h4>
+
+                                {% if  item.stock == '<p>Заканчивается</p>' %}
+                                    <span class="stock-red">{{ item.stock|safe }}</span>
+                                {% else %}
+                                    <span class="stock">{{ item.stock|safe }}</span>
+                                {% endif %}
+                                <div class="price">
+                                    {% if item.oldprice and item.price %}
+                                        <span>{{ item.price }} грн.</span>
+                                        <span class="discount-price">{{ item.oldprice }} грн.</span>
+                                    {% elif item.price == 0 or item.price is None %}
+                                        <span></span>
+                                    {% else %}
+                                        <span>{{ item.price }} грн.</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Product -->
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Pagination start -->
+            <div class="row">
+                <div class="col-12">
+
+                    {% if page_obj.has_other_pages %}
+                        <div class="pagination center">
+
+                            <ul class="pagination-list">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-numbers"
+                                           href="?{{ s }}page={{ page_obj.previous_page_number }}"
+                                           aria-hidden="true">
+                                            <i class="lni lni-chevron-left" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% for p in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == p %}
+                                        <li class="active"><a href="?{{ s }}page={{ p }}">{{ p }}</a></li>
+                                    {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                                        <li><a href="?{{ s }}page={{ p }}">{{ p }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <li><a class="page-numbers"
+                                           href="?{{ s }}page={{ page_obj.next_page_number }}"><i
+                                            class="lni lni-chevron-right" aria-hidden="true"></i></a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

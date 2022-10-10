@@ -13,28 +13,33 @@
                     </a>
                     <!-- End Header Logo -->
                 </div>
-                <div class="col-lg-5 col-md-7 d-xs-none">
+                <div class="col-lg-9 col-md-9 d-xs-none">
                     <!-- Start Main Menu Search -->
                     <div class="main-menu-search">
                         <!-- navbar search start -->
-                        <div class="navbar-search search-style-5">
+                        <form method="get" action="{% url 'catalog:search' %}">
+                            <div class="navbar-search search-style-5">
 
-                            <form class="d-flex">
-
+                                <div class="search-select">
+                                    <div class="select-position">
+                                        <select id="select1">
+                                            <option selected>Всюди</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="search-input">
-                                    <input type="search" class="form-control me-2" placeholder="Давай шось пошукаємо">
+                                    <input type="text" name="s" placeholder="Давай шось пошукаємо ... ">
                                 </div>
                                 <div class="search-btn">
-                                    <button><i class="lni lni-search-alt"></i></button>
+                                    <button type="submit"><i class="lni lni-search-alt"></i></button>
                                 </div>
 
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                         <!-- navbar search Ends -->
                     </div>
                     <!-- End Main Menu Search -->
                 </div>
-
             </div>
         </div>
     </div>

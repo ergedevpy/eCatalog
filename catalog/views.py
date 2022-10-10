@@ -1,5 +1,6 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView
+from django.db.models import Q
 
 from .models import Product, Category
 
@@ -31,4 +32,22 @@ class ProductsByCategory(ListView):
         context = self.data
         context['title'] = f'Категорія: {Category.objects.get(slug=self.kwargs["slug"])} | ERGE.ONE'
         context['category_name'] = Category.objects.get(slug=self.kwargs["slug"])
+        return context
+
+
+class Search(ListView):
+    template_name = 'catalog/search.html'
+    context_object_name = 'products'
+    paginate_by = 12
+
+    def get_queryset(self):
+        return Product.objects.select_related('category').filter(Q(name__icontains=self.request.GET.get('s')) |
+                                                                 Q(description__icontains=self.request.GET.get('s')) |
+                                                                 Q(code__icontains=self.request.GET.get('s')) |
+                                                                 Q(vendor__name__icontains=self.request.GET.get('s')))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Результат пошуку для: {self.request.GET.get("s")}'
+        context['s'] = f's={self.request.GET.get("s")}&'
         return context

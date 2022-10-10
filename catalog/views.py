@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.db.models import Q
+from django.shortcuts import render
 
 from .models import Product, Category
 
@@ -51,3 +52,8 @@ class Search(ListView):
         context['title'] = f'Результат пошуку для: {self.request.GET.get("s")}'
         context['s'] = f's={self.request.GET.get("s")}&'
         return context
+
+
+def page_not_found_view(request, exception):
+    return render(request, '404.html', status=404)
+

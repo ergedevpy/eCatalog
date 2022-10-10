@@ -41,7 +41,8 @@ else:
     ALLOWED_HOSTS = ['ecom.erge.one', 'erge.one', 'localhost', '127.0.0.1', '157.230.191.167', ]
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_random_secret_key()
+# SECRET_KEY = get_random_secret_key()
+SECRET_KEY = env('SECRET_KEY')
 
 # Application definition
 

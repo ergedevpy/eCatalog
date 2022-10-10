@@ -1,0 +1,6 @@
+<ul class="sub-menu collapse" id="submenu-1-3">
+    {% for cat in categories %}
+        <li class="nav-item"><a href="{{ cat.get_absolute_url }}">{{ cat.name }}
+        </a></li>
+    {% endfor %}
+</ul>

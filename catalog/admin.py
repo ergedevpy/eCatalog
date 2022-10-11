@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import *
+from .models import Category, Merchant, Product, Vendor
 
 
 class MerchantAdmin(admin.ModelAdmin):
@@ -27,11 +27,11 @@ class VendorAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
-    list_display = ['id', 'category', 'vendor', 'name',  'stock', 'get_photo', 'oldprice', 'price',
-                    'merchant', ]
-    search_fields = ['name', 'description', ]
-    list_filter = ['category', 'vendor', ]
-    readonly_fields = ['get_photo', ]
+    list_display = ['id', 'category', 'vendor', 'name', 'stock', 'get_photo', 'oldprice', 'price',
+                    'merchant']
+    search_fields = ['name', 'description']
+    list_filter = ['category', 'vendor']
+    readonly_fields = ['get_photo']
     save_on_top = True
 
     def get_photo(self, obj):

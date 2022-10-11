@@ -1,7 +1,7 @@
 import csv
 from decimal import Decimal
 
-from catalog.models import *
+from catalog.models import Category, Merchant, Product, Vendor
 
 
 def gen_categories(cat: str):

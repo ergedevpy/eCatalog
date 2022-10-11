@@ -47,7 +47,7 @@
                                 <span class="category">{{ item.category.name }}</span>
 
                                 <h4 class="title">
-                                    <a href="#">
+                                    <a href="{% url 'catalog:product_detail' item.slug %}">
                                         {% if  item.name|length > 30 %}
                                             {{ item.name|truncatechars:30 }}
                                         {% else %}

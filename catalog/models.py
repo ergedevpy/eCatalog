@@ -1,9 +1,10 @@
 import random
 
-from unidecode import unidecode
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+
+from unidecode import unidecode
 
 
 class Merchant(models.Model):

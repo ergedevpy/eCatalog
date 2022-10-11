@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <!-- Start Item Details -->
+    <section class="item-details section">
+        <div class="container">
+            <div class="top-area">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <div class="product-images">
+                            <main id="gallery">
+                                {% if product.picture %}
+                                    <div class="main-img">
+                                        <img src="{{ product.picture }}" id="current"
+                                             alt="Image for {{ item.slug }}">
+                                    </div>
+                                {% else %}
+                                    <img src="{% static 'images/products/noimage_product.svg' %}"
+                                         alt="Image for {{ item.slug }}">
+                                {% endif %}
+                            </main>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <div class="product-info">
+                            <h2 class="title">{{ product.name }}</h2>
+
+                            <p class="category"><i class="lni lni-tag"></i> Категорія:<a
+                                    href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></p>
+
+
+                            <p class="category"><i class="lni lni-tag"></i> Код товару: {{ product.code }}
+                                ({{ product.prod_id }})</p>
+
+                            <p class="category"><i class="lni lni-tag"></i> Гарантія: {{ product.guarantee }}
+                            </p>
+                            <p class="category"><i class="lni lni-tag"></i> Виробник: {{ product.vendor.name }}
+                            </p>
+                            <p class="category"><i class="lni lni-tag"></i> Продавець: {{ product.merchant.name }}
+                            </p>
+
+                            {% if product.oldprice and product.price %}
+                                <h3 class="price">{{ product.price }} грн.<span>{{ product.oldprice }} грн.</span></h3>
+                            {% elif item.price == 0 or product.price is None %}
+                                <span></span>
+                            {% else %}
+                                <h3 class="price">{{ product.price }} </h3>
+                            {% endif %}
+
+                            <p class="info-text">{{ product.description }}</p>
+                            <div class="row">
+                            </div>
+                            <div class="bottom-content">
+                                <div class="row align-items-end">
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                        <div class="button cart-button">
+                                            <a href="{% url 'catalog:redirect_to_admitad' product.pk %}" target="_blank"
+                                               rel="noopener" class="btn">
+                                                <button class="btn" style="width: 100%;">В магазин</button>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- End Item Details -->
+{% endblock content %}

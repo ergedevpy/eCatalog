@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import environ
 import os.path
+import environ
 from pathlib import Path
 
 from django.core.management.utils import get_random_secret_key
@@ -74,8 +74,7 @@ ROOT_URLCONF = "eCatalog.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates']
-        ,
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -177,3 +176,5 @@ else:
             'LOCATION': '/var/tmp/django_cache',
         }
     }
+
+SITE_NAME = 'ERGE.ONE'
